@@ -1,0 +1,15 @@
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DanceDanceSudokulution.exe
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DanceDanceSudokulution.deps.json
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DanceDanceSudokulution.runtimeconfig.json
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DanceDanceSudokulution.runtimeconfig.dev.json
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DanceDanceSudokulution.dll
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DanceDanceSudokulution.pdb
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.csprojAssemblyReference.cache
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.AssemblyInfoInputs.cache
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.AssemblyInfo.cs
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.csproj.CoreCompileInputs.cache
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.dll
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.pdb
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.genruntimeconfig.cache
+C:\Projects\Practice-Personal\DanceDanceSudokulution\bin\Debug\netcoreapp3.1\DlxLib.dll
+C:\Projects\Practice-Personal\DanceDanceSudokulution\obj\Debug\netcoreapp3.1\DanceDanceSudokulution.csproj.CopyComplete

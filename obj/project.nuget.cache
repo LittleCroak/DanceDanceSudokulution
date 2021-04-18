@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "3FzegT8nM5TUlJw7P/Uz73pZqthPJLqqJsD5EflAZQpxJR4XGSeHof+a17WcsUg+EjKV0WuecfuNoqxOGi5Yiw==",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nick.dryden\\.nuget\\packages\\dlxlib\\1.3.0\\dlxlib.1.3.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'DlxLib 1.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "DlxLib",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
+}
