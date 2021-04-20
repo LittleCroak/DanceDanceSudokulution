@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj": {}
+    "F:\\Project\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj": {
+    "F:\\Project\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
+        "projectUniqueName": "F:\\Project\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
         "projectName": "DanceDanceSudokulution",
-        "projectPath": "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
-        "packagesPath": "C:\\Users\\nick.dryden\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\obj\\",
+        "projectPath": "F:\\Project\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
+        "packagesPath": "C:\\Users\\zarte\\.nuget\\packages\\",
+        "outputPath": "F:\\Project\\DanceDanceSudokulution\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\nick.dryden\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\zarte\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -60,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

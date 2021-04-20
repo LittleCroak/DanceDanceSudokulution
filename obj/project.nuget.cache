@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "3FzegT8nM5TUlJw7P/Uz73pZqthPJLqqJsD5EflAZQpxJR4XGSeHof+a17WcsUg+EjKV0WuecfuNoqxOGi5Yiw==",
+  "dgSpecHash": "0B/WU3gOkoY4DlA9/ZlGWQEhvV3VLQXTrl+cKYZWAsrTe7h9kiWTXE18d95Iocd01XoNby095yu1J7YktswEPw==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\Practice-Personal\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
+  "projectFilePath": "F:\\Project\\DanceDanceSudokulution\\DanceDanceSudokulution.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\nick.dryden\\.nuget\\packages\\dlxlib\\1.3.0\\dlxlib.1.3.0.nupkg.sha512"
+    "C:\\Users\\zarte\\.nuget\\packages\\dlxlib\\1.3.0\\dlxlib.1.3.0.nupkg.sha512"
   ],
   "logs": [
     {

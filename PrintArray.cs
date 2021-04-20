@@ -19,7 +19,7 @@ namespace DanceDanceSudokulution
 
         public static void Print2DArrayToCsv<T>(T[,] matrix, int[,] setCoverGrid)
         {
-            using (StreamWriter outfile = new StreamWriter(@"C:\Users\nick.dryden\OneDrive - Veritec Pty Ltd\Documents\Projects\WizBangSuperSudokuSlayer\output.csv"))
+            using (StreamWriter outfile = new StreamWriter(@"F:\Project\DanceDanceSudokulution\output.csv"))
             {
                 for (int i = 0; i < setCoverGrid.GetLength(0); i++)
                 {

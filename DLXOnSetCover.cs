@@ -16,13 +16,20 @@ namespace DanceDanceSudokulution
         {
             var dlx = new Dlx();
 
-            var solvedSetCoverBoard = dlx.Solve(setCoverBoard).Take(1);
+            var set = new int[,]
+            {
+                {0,0,0,0 },
+                {0,1,0,1 },
+                {1,0,1,0 }
+            };
+
+            var solvedSetCoverBoard = dlx.Solve(set).Take(1);
 
             PrintSolutions(setCoverBoard,solvedSetCoverBoard);
         }
 
         private static void PrintSolutions(int[,] matrix, IEnumerable<Solution> solutions)
-        {
+          {
             // ReSharper disable ReturnValueOfPureMethodIsNotUsed
             solutions.Select((solution, index) =>
             {

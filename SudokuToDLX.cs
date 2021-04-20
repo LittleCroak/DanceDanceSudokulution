@@ -13,49 +13,55 @@ namespace DanceDanceSudokulution
             // Get the total rows in the sudokuBoard
             var rows = sudokuBoard.GetLength(0);
             // Create the size of the set cover grid based on the size of the sudokuBoard
-            var emptySetCoverBoard = DetermineSetCoverBoard(sudokuBoard, rows, cols);
+            var emptySetCoverBoard = DetermineSetCoverBoard(rows, cols);
 
             var setCoverBoard = emptySetCoverBoard;
 
-            // Create the rowArray based on the incoming sudokuboard
-            var rowArray = new int[rows];
-            
-            // take first row of the sudoku board and turn it into a 1d array
-            for (int m = 0; m < sudokuBoard.GetLength(0); m++)
-            {
-                // turn row by row into a 1d array
-                rowArray = SudokuRowToArray(sudokuBoard, rows, rowArray, m);
+            //Counter to find which cell we are operating in
+            var sudokuCellCounter = 0;
 
-                // get the first rowArray we created from the m row of the sudoku board
-                // Then pipe value by value into the new setgrid
-                setCoverBoard = SudokuValueToSetCover(rowArray, setCoverBoard, m);
+            //Counter for the SetCoverRow we are up to
+            var setCoverRowNumber = 0;
+
+
+            // iterate through sudokuBoard to get each value
+            for (int m = 0; m < rows; m++)
+            {
+                for (int n = 0; n < cols; n++)
+                {
+                    //Get current SudokuDigit
+                    var currentSudokuDigit = sudokuBoard[m, n];
+                    
+                    // if the cell is zero we have to add the possibility of the cell being numbers 1 - 9
+                    if (currentSudokuDigit == 0)
+                    {
+                        for(int i = 1; i <= cols; i++)
+                        {
+                            setCoverBoard = SudokuValueToSetCover(sudokuCellCounter, setCoverBoard, currentSudokuDigit, n, m, sudokuCellCounter);
+                            setCoverRowNumber++;
+                        }
+                    }
+
+                    if (currentSudokuDigit != 0)
+                    {
+                        // pipe in each value from the sudokuBoard into this function which will create an equivalent
+                        // set cover board to work on later.
+                        setCoverBoard = SudokuValueToSetCover(sudokuCellCounter, setCoverBoard, currentSudokuDigit, n, m, sudokuCellCounter);
+                        setCoverRowNumber++;
+                    }
+                    sudokuCellCounter++;
+                }
             }
+
             return setCoverBoard;
         }
-        private static int DetermineSudokuCell(int sudokuRow, int sudokuCol)
-        {
-            // Equation to find currently occupying cell:
-            // R = Row, C = col
-            // R * 9 = X
-            // X - 9 = Y
-            // y + c = ans
 
-            // Need to plus 1 to deal with counting from 0
-            var row = sudokuRow + 1;
-
-            var x = row * 9;
-            var y = x - 9;
-            var sudokuCell = y + sudokuCol;
-
-            return sudokuCell;
-        }
-
-        private static int[,] DetermineSetCoverBoard(int[,] sudokuBoard, int rows, int cols)
+        private static int[,] DetermineSetCoverBoard(int rows, int cols)
         {
             var setCoverConstraints = (cols * rows) * 4;
             var setCoverRows = (cols * rows) * 9;
 
-            var setCoverBoard = new int[setCoverRows,setCoverConstraints];
+            var setCoverBoard = new int[setCoverRows, setCoverConstraints];
             return setCoverBoard;
         }
 
@@ -66,12 +72,13 @@ namespace DanceDanceSudokulution
             // x * 9 = Y
             // y + digit = answer
 
-            var x = sudokuCell - 1;
+            var x = sudokuCell;
             var y = x * 9;
             var setCoverRow = y + digit;
 
             return setCoverRow;
         }
+
 
         private static int[,] ModifySetCoverBoard(int[,] emptySetCoverBoard, int firstCoverColumn, int secondCoverColumn, int thirdCoverColumn, int fourthCoverColumn, int row)
         {
@@ -83,44 +90,21 @@ namespace DanceDanceSudokulution
             return emptySetCoverBoard;
         }
 
-        private static int[] SudokuRowToArray(int [,] sudokuBoard, int rows, int[] rowArray, int m)
+        private static int[,] SudokuValueToSetCover(int sudokuCell, int[,] emptySetCoverBoard, int sudokuDigit, int sudokuColumnNumber, int sudokuRowNumber, int sudokuCellCounter)
         {
-            for (int i = 0; i < rows; i++)
-            {
-                rowArray[i] = sudokuBoard[m, i];
-            }
-            return rowArray;
-        }
+            //determine the setcoverRow we are writing too
+            var setCoverRow = DetermineSetCoverRow(sudokuCellCounter, sudokuDigit);
 
-        private static int[,] SudokuValueToSetCover(int[] rowArray, int[,] emptySetCoverBoard, int sudokuRow)
-        {
-            double index = 1;
+            var sudokuBoxNumber = Math.Ceiling(((double)sudokuColumnNumber + 1) / 3);
 
-            foreach(int i in rowArray)
-            {
-                if(i != 0)
-                {
-                    var sudokuCell = DetermineSudokuCell(sudokuRow, (int)index);
+            // Take values and run them through SetCover Constraint equations to determine columns:
+            var firstCoverColumn = SCColumnConstraints.FirstConstraintRule(sudokuRowNumber, sudokuColumnNumber);
+            var secondCoverColumn = SCColumnConstraints.SecondConstraintRule(sudokuRowNumber, sudokuColumnNumber, sudokuDigit);
+            var thirdCoverColumn = SCColumnConstraints.ThirdConstraintRule(sudokuColumnNumber, sudokuDigit);
+            var fourthCoverColumn = SCColumnConstraints.FourConstraintRule(sudokuRowNumber, sudokuColumnNumber, sudokuDigit, sudokuBoxNumber);
 
-                    var setCoverRowNumber = DetermineSetCoverRow(sudokuCell, i);
-                    var arrayColumn = (int)index - 1;
-                    // define the box we are up to by how far we are into the row:
-                    var box = Math.Ceiling((index / 3));
-
-
-                    // Take value by value into the setcover board
-                    var firstCoverColumn = SCColumnConstraints.FirstConstraintRule(sudokuRow, arrayColumn);
-                    var secondCoverColumn = SCColumnConstraints.SecondConstraintRule(sudokuRow, arrayColumn, i);
-                    var thirdCoverColumn = SCColumnConstraints.ThirdConstraintRule(arrayColumn, i);
-                    var fourthCoverColumn = SCColumnConstraints.FourConstraintRule(sudokuRow, arrayColumn, i, box);
-
-                    emptySetCoverBoard = ModifySetCoverBoard(emptySetCoverBoard, (firstCoverColumn), (secondCoverColumn), (thirdCoverColumn), (fourthCoverColumn), setCoverRowNumber - 1);
-
-                    //debug:
-                    Console.WriteLine(setCoverRowNumber);
-                }
-                index++;
-            }
+            // Modify the EmptySetCoverBoard with the values determined above:
+            emptySetCoverBoard = ModifySetCoverBoard(emptySetCoverBoard, firstCoverColumn, secondCoverColumn, thirdCoverColumn, fourthCoverColumn, setCoverRow);
 
             return emptySetCoverBoard;
         }
