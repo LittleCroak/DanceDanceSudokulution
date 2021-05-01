@@ -1,39 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DanceDanceSudokulution
+﻿namespace DanceDanceSudokulution
 {
     // d = digits, r = row, c = col, b = box.   
     class SCColumnConstraints
     {
-        public static int FirstConstraintRule(int row, int col)
+        public static int FirstConstraintRule(int row, int col, int cellNum)
         {
-
-            var firstContraintCol = col;
+            // (sRow * 9) + sCol
+            var firstContraintCol = (row * cellNum) + col;
             return firstContraintCol;
         }
-        public static int SecondConstraintRule(int row, int col, int d)
+        public static int SecondConstraintRule(int row, int d, int cellNum, int colWidth)
         {
-            
-            var secondConstraintCol = 81  + (d);
-
+            // (sRow * 9) + d + 81 + 81
+            var secondConstraintCol = (row * cellNum) + d + colWidth - 1;
             return secondConstraintCol;
         }
 
-        public static int ThirdConstraintRule(int col, int d)
+        public static int ThirdConstraintRule(int col, int d, int cellNum, int colWidth)
         {
-            // c * 9 + d + 81 + 81
-            var thirdConstraintCol = 81 + 81 + d;
-
+            // (sCol * 9) + d + 81 + 81 - 1
+            var thirdConstraintCol = (col * cellNum) + d + colWidth + colWidth - 1;
             return thirdConstraintCol;
         }
 
-       public static int FourConstraintRule(int row, int col, int d, double box)
+       public static int FourConstraintRule(int d, double box, int setCoverRow, int cellNum, int colWidth)
         {
-            // b * 9 + d + 81 + 81 + 81
-            var fourthConstraintCol = 81 + 81 + 81 + (row - (row % 3)) + (col /3);
-
+            // (sBox * 9) + d + 81 + 81 + 81 - 1
+            var fourthConstraintCol = (box * cellNum) + d + colWidth + colWidth + colWidth - 1;
             return (int)fourthConstraintCol;
         }
     }

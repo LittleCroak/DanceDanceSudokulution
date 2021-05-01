@@ -6,7 +6,7 @@ namespace DanceDanceSudokulution
 {
     class SudokuImport
     {
-        public static int[,] CsvImporter(string inputLoc)
+        public int[,] CsvImporter(string inputLoc)
         {
             var rows = 0;
             var cols = 0;

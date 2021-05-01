@@ -1,21 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DanceDanceSudokulution
 {
     class SudokuToDLX
     {
-        public static int[,] CreateDLXGrid(int [,] sudokuBoard)
+        public CoverBoard CreateDLXGrid(int [,] sudokuBoard)
         {
+            CoverBoard coverBoard = new CoverBoard();
             // Get the total columns in the sudokuBoard
             var cols = sudokuBoard.GetLength(1);
 
             // Get the total rows in the sudokuBoard
             var rows = sudokuBoard.GetLength(0);
-            // Create the size of the set cover grid based on the size of the sudokuBoard
-            var emptySetCoverBoard = DetermineSetCoverBoard(rows, cols);
 
-            var setCoverBoard = emptySetCoverBoard;
+            // For clarity this is a definition that gives us the possible number size.
+            // For instance a 9x9 = 9 or a 16x16 = 16 and so on. 
+            var cellNum = rows;
 
             //Counter to find which cell we are operating in
             var sudokuCellCounter = 0;
@@ -23,6 +25,19 @@ namespace DanceDanceSudokulution
             //Counter for the SetCoverRow we are up to
             var setCoverRowNumber = 0;
 
+            //
+            coverBoard.extraCover = new List<List<int>>();
+
+            coverBoard = CreateSetCoverBoard(rows, cols, sudokuBoard, coverBoard.extraCover, setCoverRowNumber, sudokuCellCounter, cellNum);
+
+            return coverBoard;
+        }
+
+        private CoverBoard CreateSetCoverBoard(int rows, int cols, int[,] sudokuBoard, List<List<int>> setCoverBoard, int setCoverRowNumber, int sudokuCellCounter, int cellNum)
+        {
+            //init object to return
+            CoverBoard coverBoard = new CoverBoard();
+            coverBoard.indexer = new List<Tuple<int, int, int>>();
 
             // iterate through sudokuBoard to get each value
             for (int m = 0; m < rows; m++)
@@ -31,82 +46,66 @@ namespace DanceDanceSudokulution
                 {
                     //Get current SudokuDigit
                     var currentSudokuDigit = sudokuBoard[m, n];
-                    
+
                     // if the cell is zero we have to add the possibility of the cell being numbers 1 - 9
                     if (currentSudokuDigit == 0)
                     {
-                        for(int i = 1; i <= cols; i++)
+                        for (int i = 1; i < (cellNum + 1); i++)
                         {
-                            setCoverBoard = SudokuValueToSetCover(sudokuCellCounter, setCoverBoard, currentSudokuDigit, n, m, sudokuCellCounter);
+                            setCoverBoard = SudokuValueToSetCover(setCoverBoard, i, n, m, sudokuCellCounter, setCoverRowNumber, cellNum);
+                            coverBoard.indexer.Add(new Tuple<int, int, int>(m, n, i));
+
                             setCoverRowNumber++;
                         }
                     }
 
-                    if (currentSudokuDigit != 0)
+                    else
                     {
                         // pipe in each value from the sudokuBoard into this function which will create an equivalent
                         // set cover board to work on later.
-                        setCoverBoard = SudokuValueToSetCover(sudokuCellCounter, setCoverBoard, currentSudokuDigit, n, m, sudokuCellCounter);
+                        setCoverBoard = SudokuValueToSetCover(setCoverBoard, currentSudokuDigit, n, m, sudokuCellCounter, setCoverRowNumber, cellNum);
+                        coverBoard.indexer.Add(new Tuple<int, int, int>(m, n, currentSudokuDigit));
+
+
                         setCoverRowNumber++;
                     }
                     sudokuCellCounter++;
                 }
             }
+            coverBoard.extraCover = setCoverBoard;
 
-            return setCoverBoard;
+            return coverBoard;
         }
 
-        private static int[,] DetermineSetCoverBoard(int rows, int cols)
+        private List<int> ModifySetCoverBoard(int firstCoverColumn, int secondCoverColumn, int thirdCoverColumn, int fourthCoverColumn, int row, int cellNum)
         {
-            var setCoverConstraints = (cols * rows) * 4;
-            var setCoverRows = (cols * rows) * 9;
+            var setCoverRowArray = new int[(cellNum * cellNum) * 4];
 
-            var setCoverBoard = new int[setCoverRows, setCoverConstraints];
-            return setCoverBoard;
-        }
+            setCoverRowArray[firstCoverColumn] = 1;
+            setCoverRowArray[secondCoverColumn] = 1;
+            setCoverRowArray[thirdCoverColumn] = 1;
+            setCoverRowArray[fourthCoverColumn] = 1;
 
-        private static int DetermineSetCoverRow(int sudokuCell, int digit)
-        {
-            // To figure out the setCoverRow to place a digit:
-            // Cell number - 1 = x
-            // x * 9 = Y
-            // y + digit = answer
-
-            var x = sudokuCell;
-            var y = x * 9;
-            var setCoverRow = y + digit;
+            var setCoverRow = setCoverRowArray.ToList();
 
             return setCoverRow;
         }
 
-
-        private static int[,] ModifySetCoverBoard(int[,] emptySetCoverBoard, int firstCoverColumn, int secondCoverColumn, int thirdCoverColumn, int fourthCoverColumn, int row)
+        private List<List<int>> SudokuValueToSetCover(List<List<int>> setCoverBoard, int sudokuDigit, int sudokuColumnNumber, int sudokuRowNumber, int sudokuCellCounter, int setCoverRow, int cellNum)
         {
-            emptySetCoverBoard[row, firstCoverColumn] = 1;
-            emptySetCoverBoard[row, secondCoverColumn] = 1;
-            emptySetCoverBoard[row, thirdCoverColumn] = 1;
-            emptySetCoverBoard[row, fourthCoverColumn] = 1;
-
-            return emptySetCoverBoard;
-        }
-
-        private static int[,] SudokuValueToSetCover(int sudokuCell, int[,] emptySetCoverBoard, int sudokuDigit, int sudokuColumnNumber, int sudokuRowNumber, int sudokuCellCounter)
-        {
-            //determine the setcoverRow we are writing too
-            var setCoverRow = DetermineSetCoverRow(sudokuCellCounter, sudokuDigit);
-
-            var sudokuBoxNumber = Math.Ceiling(((double)sudokuColumnNumber + 1) / 3);
+            var sudokuBoxNumber = Math.Floor(sudokuRowNumber - (sudokuRowNumber % (Math.Sqrt(cellNum))) + (sudokuColumnNumber / (Math.Sqrt(cellNum))));
+            var colWidth = cellNum * cellNum;
 
             // Take values and run them through SetCover Constraint equations to determine columns:
-            var firstCoverColumn = SCColumnConstraints.FirstConstraintRule(sudokuRowNumber, sudokuColumnNumber);
-            var secondCoverColumn = SCColumnConstraints.SecondConstraintRule(sudokuRowNumber, sudokuColumnNumber, sudokuDigit);
-            var thirdCoverColumn = SCColumnConstraints.ThirdConstraintRule(sudokuColumnNumber, sudokuDigit);
-            var fourthCoverColumn = SCColumnConstraints.FourConstraintRule(sudokuRowNumber, sudokuColumnNumber, sudokuDigit, sudokuBoxNumber);
+            var firstCoverColumn = SCColumnConstraints.FirstConstraintRule(sudokuRowNumber, sudokuColumnNumber, cellNum);
+            var secondCoverColumn = SCColumnConstraints.SecondConstraintRule(sudokuRowNumber, sudokuDigit, cellNum, colWidth);
+            var thirdCoverColumn = SCColumnConstraints.ThirdConstraintRule(sudokuColumnNumber, sudokuDigit, cellNum, colWidth);
+            var fourthCoverColumn = SCColumnConstraints.FourConstraintRule(sudokuDigit, sudokuBoxNumber, setCoverRow, cellNum, colWidth);
 
             // Modify the EmptySetCoverBoard with the values determined above:
-            emptySetCoverBoard = ModifySetCoverBoard(emptySetCoverBoard, firstCoverColumn, secondCoverColumn, thirdCoverColumn, fourthCoverColumn, setCoverRow);
+            setCoverBoard.Add(ModifySetCoverBoard(firstCoverColumn, secondCoverColumn, thirdCoverColumn, fourthCoverColumn, setCoverRow, cellNum));
 
-            return emptySetCoverBoard;
+            return setCoverBoard;
         }
     }
 }
